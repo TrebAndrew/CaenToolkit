@@ -12,9 +12,9 @@
 //  Input parameters:
 //    fname --- the input file name, where data of peaks' positions and widths contained.
 void treemaker(
-        string fname = "output.txt"){
+        string fname = "C:/File/output.dat"){
     // Create an output file.
-    TFile Fout("tree.root", "RECREATE");
+    TFile Fout("C:/File/tree.root", "RECREATE");
     // Create a TTree object to put in it data.
     TTree t("t", "gain data");
     // Read data from the input file into the tree.

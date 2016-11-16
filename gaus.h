@@ -16,13 +16,13 @@ using namespace std;
 //    left --- the left boundary of fitting.
 //    right --- the right boundary of fitting.
 void gaus(
-        string fname = "C:/File/mppcS10362-11-100C-n2568 70.3 V _011_eh_0.dat",
+        string fname = "C:/File/1.dat",     
         int PixNum,
         double left,
         double right){
+    int SNum;
     double Volt;
     double Temp;
-    int SNum;
     //  Create a canvas c1, i.e. a window where we will draw all our stuff.
     TCanvas * c1 = new TCanvas("c1", "c1", 900, 800);
     //  Open the input file with name fname.
@@ -36,18 +36,18 @@ void gaus(
     }
     h->SetBinContent(6000, 0);//  The last bin is bad, empty it.
     h->Draw();//  Justr drawing the histogram in the canvas.
-    //TF1 * f1 = new TF1("f1", "gaus", 700, 1100);//  Create a Gaussian function for fitting.
-    //f1->SetParameters( h->GetEntries()/20, (left+right)/2., (right-left)/4 );
+    TF1 * f1 = new TF1("f1", "gaus", 700, 1100);//  Create a Gaussian function for fitting.
+    f1->SetParameters( h->GetEntries()/20, (left+right)/2., (right-left)/4 );
     // h.Fit("gaus", "", "same", 700, 1100);
     //  Fit the histogram by the normal distribution in the range (left, right).
     //  The fit result is output in the terminal session.
-     // h->Fit(f1, "", "same", left, right);
-    //f1->Draw("same");
+      h->Fit(f1, "", "same", left, right);
+    f1->Draw("same");
 
     ofstream myfile ("C:/File/output.txt", std::ios::app);
       if (myfile.is_open())
       {
-        myfile <<
+        myfile <<                  
             endl                <<
             SNum                <<
             "\t"                <<
@@ -57,13 +57,13 @@ void gaus(
             "\t "               <<
             Temp                <<
             "\t"                <<
-            setprecision(5) << f1->GetParameter(1) <<
+            setprecision(6)<<f1->GetParameter(1) <<
             "\t"                <<
-            setprecision(3) << f1->GetParError(1)  <<
+            setprecision(5)<<f1->GetParError(1)  <<
             "\t"                <<
-            setprecision(5) << f1->GetParameter(2) <<
+            setprecision(6)<<f1->GetParameter(2) <<
             "\t"                <<
-            setprecision(3) << f1->GetParError(2)  <<
+            setprecision(5)<<f1->GetParError(2)  <<
             "\t";
 
         myfile.close();
